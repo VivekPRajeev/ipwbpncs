@@ -7,6 +7,7 @@ interface CommentProps {
   userName: string;
   text: string;
   createdAt: Date;
+  deletedAt?: Date | null;
   replies?: CommentProps[]; // For nested comments (replies)
 }
 export const Comment: React.FC<CommentProps> = ({
@@ -14,6 +15,7 @@ export const Comment: React.FC<CommentProps> = ({
   text,
   createdAt,
   replies,
+  deletedAt,
 }) => {
   const [hideReplies, setHideReplies] = useState(true);
   return (
@@ -26,7 +28,9 @@ export const Comment: React.FC<CommentProps> = ({
           <span className="font-bold text-gray-900">{userName}</span>
           <DateView createdAt={createdAt} />
         </div>
-        <p className="text-gray-700">{text}</p>
+        <p className="text-gray-700">
+          {deletedAt == null ? text : <i>message deleted by user</i>}
+        </p>
         <div className="flex justify-start mt-2">
           <button className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600">
             <FontAwesomeIcon icon={faReply} />
@@ -49,6 +53,7 @@ export const Comment: React.FC<CommentProps> = ({
                 userName={reply.userName}
                 text={reply.text}
                 createdAt={reply.createdAt}
+                replies={reply.replies}
               />
             ))}
           </div>

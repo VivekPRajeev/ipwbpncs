@@ -7,17 +7,16 @@ export const commentsMockList = [
     parentId: null,
     createdAt: new Date(),
     deletedAt: null,
-    replies: [
-      {
-        id: 3,
-        userName: "Iris",
-        userId: "ir0678",
-        text: "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        parentId: 1,
-        createdAt: new Date(),
-        deletedAt: null,
-      },
-    ],
+    replies: [],
+  },
+  {
+    id: 3,
+    userName: "Iris",
+    userId: "ir0678",
+    text: "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    parentId: 1,
+    createdAt: new Date(),
+    deletedAt: null,
   },
   {
     id: 2,
@@ -26,7 +25,7 @@ export const commentsMockList = [
     text: " consectetur adipiscing elit.",
     parentId: 1,
     createdAt: new Date(),
-    deletedAt: null,
+    deletedAt: new Date(),
   },
 
   {

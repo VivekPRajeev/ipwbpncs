@@ -32,6 +32,7 @@ function App() {
             text={comment.text}
             createdAt={comment.createdAt}
             replies={comment.replies}
+            deletedAt={comment.deletedAt}
           />
         ))}
       </div>
