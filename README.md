@@ -4,12 +4,13 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 
 ## Features
 
-- ⚡️ React 19 (latest version)
-- 🏗️ TypeScript for type safety
-- 🎨 Tailwind CSS v3 for styling
-- 📦 Vite for fast development and building
-- 🔧 ESLint for code quality
-- 🚀 Hot Module Replacement (HMR)
+- React 19 (latest version)
+- TypeScript for type safety
+- Tailwind CSS v3 for styling
+- Vite for fast development and building
+- ESLint for code quality
+- Hot Module Replacement (HMR)
+- Font Awesome icons integration
 
 ## Getting Started
 
@@ -75,6 +76,7 @@ src/
 - **Tailwind CSS**: A utility-first CSS framework
 - **Vite**: Next generation frontend tooling
 - **ESLint**: Pluggable linting utility for JavaScript and TypeScript
+- **Font Awesome**: The web's most popular icon set and toolkit
 
 ## Customization
 
