@@ -1,0 +1,51 @@
+export const commentsMockList = [
+  {
+    id: 1,
+    userName: "Alice",
+    userId: "al0121",
+    text: "Lorem ipsum dolor sit amet!",
+    parentId: null,
+    createdAt: new Date(),
+    deletedAt: null,
+    replies: [
+      {
+        id: 3,
+        userName: "Iris",
+        userId: "ir0678",
+        text: "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        parentId: 1,
+        createdAt: new Date(),
+        deletedAt: null,
+      },
+    ],
+  },
+  {
+    id: 2,
+    userName: "Dex",
+    userId: "dex3live",
+    text: " consectetur adipiscing elit.",
+    parentId: 1,
+    createdAt: new Date(),
+    deletedAt: null,
+  },
+
+  {
+    id: 4,
+    userName: "Nia",
+    userId: "ni0910",
+    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    parentId: null,
+    createdAt: new Date(),
+    deletedAt: null,
+  },
+  {
+    id: 5,
+    userName: "Ian",
+    userId: "ian1276",
+    text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+    parentId: 4,
+    createdAt: new Date(),
+    deletedAt: null,
+  },
+];
+export default commentsMockList;
