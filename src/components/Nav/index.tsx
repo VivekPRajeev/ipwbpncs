@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { setCurrentUser } from "../../utils/session";
 
 interface User {
   id: string;
@@ -12,11 +13,11 @@ const users: User[] = [
 ];
 
 export const Nav = () => {
-  const [currentUser, setCurrentUser] = useState<User>(users[0]);
+  const [currentUserState, setCurrentUserState] = useState<User>(users[0]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const handleSwitchUser = (user: User) => {
-    setCurrentUser(user);
+    setCurrentUserState(user);
     setCurrentUser(user);
     setShowDropdown(false);
   };
@@ -32,13 +33,13 @@ export const Nav = () => {
         onMouseLeave={() => setShowDropdown(false)}
       >
         <button className="px-4 py-2 rounded-md hover:bg-gray-700">
-          {currentUser.name}
+          {currentUserState.name}
         </button>
 
         {showDropdown && (
           <div className="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg z-10">
             {users
-              .filter((user) => user.id !== currentUser.id)
+              .filter((user) => user.id !== currentUserState.id)
               .map((user) => (
                 <button
                   key={user.id}

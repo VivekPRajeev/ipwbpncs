@@ -36,13 +36,17 @@ export function useComments(projectId: string) {
 
   // Add a new comment
   const addComment = useCallback(
-    async (text: string, parentId?: string) => {
+    async (
+      text: string,
+      userId: string,
+      userName: string,
+      parentId?: string
+    ) => {
       if (!db) return;
-
       await db.comments.insert({
         id: crypto.randomUUID(),
-        userName: "Current User", // Placeholder, replace with current user name
-        userId: "current_user_id", // Placeholder, replace with current user id
+        userName,
+        userId,
         text,
         projectId,
         parentId,

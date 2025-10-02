@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUser } from "./fontawesome";
 import { useComments } from "./hooks/useComments";
 import { Nav } from "./components/Nav";
+import { getCurrentUser } from "./utils/session";
 
 interface AddCommentHandler {
   (text: string, parentCommentId: string | undefined): void;
@@ -12,7 +13,8 @@ function App() {
   const { comments, addComment, deleteComment } = useComments("project1"); //  Using a static projectId for demo purposes
 
   const addCommentHandler: AddCommentHandler = (text, parentCommentId) => {
-    addComment(text, parentCommentId);
+    const currentUser = getCurrentUser();
+    addComment(text, currentUser.id, currentUser.name, parentCommentId);
   };
 
   const deleteCommentHandler = (id: string) => {
