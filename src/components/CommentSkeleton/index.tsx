@@ -1,5 +1,5 @@
 // loader component to show while comments are loading
-const CommentSkeleton = () => {
+export const CommentSkeleton: React.FC = () => {
   return (
     <div className="flex gap-3 relative animate-pulse">
       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1 "></div>
@@ -10,8 +10,14 @@ const CommentSkeleton = () => {
           </span>
           <div className="h-4 bg-gray-300 rounded w-1/6 mt-2" />
         </div>
-        <div className="h-4 bg-gray-300 rounded w-full mt-5" />
-        <div className="h-4 bg-gray-300 rounded w-5/6 mt-5" />
+        <div
+          className="h-4 bg-gray-300 rounded w-full mt-5"
+          data-testid="commentLine1"
+        />
+        <div
+          className="h-4 bg-gray-300 rounded w-5/6 mt-5"
+          data-testid="commentLine2"
+        />
       </div>
     </div>
   );
