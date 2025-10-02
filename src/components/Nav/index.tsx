@@ -51,7 +51,7 @@ export const Nav = () => {
         </button>
 
         {showDropdown && (
-          <div className="absolute right-0 mt-2 w-40 bg-white text-gray-800 rounded-md shadow-lg z-10">
+          <div className="absolute right-0  w-40 bg-white text-gray-800 rounded-md shadow-lg z-10">
             {users
               .filter((user) => user.id !== currentUserState?.id)
               .map((user) => (
