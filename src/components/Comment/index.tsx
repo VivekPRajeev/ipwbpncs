@@ -3,15 +3,23 @@ import { faUser, faReply, faComment, faEyeSlash } from "../../fontawesome";
 import { DateView } from "../DateView";
 import { useState } from "react";
 import AddComment from "../AddComment";
+import DeleteButton from "../DeleteButton";
+import { DELETE_COMMENT_CONFIRMATION } from "../../constants/labels";
 
 interface CommentProps {
   userName: string;
   text: string;
   createdAt: number;
   deletedAt?: number;
-  commentId?: string;
-  replies?: (Omit<CommentProps, "addComment"> & { id: string })[];
+  commentId: string;
+  replies?: (Omit<
+    CommentProps,
+    "addComment" | "deleteComment" | "commentId"
+  > & {
+    id: string;
+  })[];
   addComment: (text: string, commentId: string | undefined) => void;
+  deleteComment: (commentId: string) => void;
 }
 export const Comment: React.FC<CommentProps> = ({
   userName,
@@ -21,9 +29,10 @@ export const Comment: React.FC<CommentProps> = ({
   deletedAt,
   commentId,
   addComment,
+  deleteComment,
 }) => {
-  const [hideReplies, setHideReplies] = useState(true);
-  const [showAddComment, setShowAddComment] = useState(false);
+  const [hideReplies, setHideReplies] = useState<boolean>(true);
+  const [showAddComment, setShowAddComment] = useState<boolean>(false);
 
   const submitComment = (comment: string) => {
     addComment(comment, commentId);
@@ -70,6 +79,13 @@ export const Comment: React.FC<CommentProps> = ({
               Hide Replies
             </button>
           )}
+          {deletedAt == null && (
+            <DeleteButton
+              confirmationTitle={DELETE_COMMENT_CONFIRMATION.title}
+              confirmationMessage={DELETE_COMMENT_CONFIRMATION.message}
+              deleteHandler={() => deleteComment(commentId)}
+            />
+          )}
         </div>
         {showAddComment && (
           <AddComment
@@ -86,6 +102,7 @@ export const Comment: React.FC<CommentProps> = ({
                 {...reply}
                 commentId={reply.id}
                 addComment={addComment}
+                deleteComment={deleteComment}
               />
             ))}
           </div>

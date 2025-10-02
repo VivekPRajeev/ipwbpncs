@@ -2,11 +2,7 @@ import { Comment } from "./components/Comment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUser } from "./fontawesome";
 import { useComments } from "./hooks/useComments";
-interface commentInput {
-  userName: string;
-  userId: string;
-  id?: string;
-}
+
 interface AddCommentHandler {
   (text: string, parentCommentId: string | undefined): void;
 }
@@ -16,6 +12,10 @@ function App() {
 
   const addCommentHandler: AddCommentHandler = (text, parentCommentId) => {
     addComment(text, parentCommentId);
+  };
+
+  const deleteCommentHandler = (id: string) => {
+    deleteComment(id);
   };
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -42,6 +42,7 @@ function App() {
         {comments.map((comment) => (
           <Comment
             key={comment.id}
+            commentId={comment.id} // Pass the comment id for reply association
             userName={comment.userName}
             text={comment.text}
             createdAt={comment.createdAt}
@@ -50,7 +51,7 @@ function App() {
             addComment={(text, parentCommentId) =>
               addCommentHandler(text, parentCommentId)
             }
-            commentId={comment.id} // Pass the comment
+            deleteComment={deleteCommentHandler}
           />
         ))}
       </div>

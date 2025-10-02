@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import ConfirmationModal from "../ConfirmationModal";
-import { CONFIRMATION_MODAL } from "../../constants/labels";
+import { DISCARD_COMMENT_CONFIRMATION_MODAL } from "../../constants/labels";
 
 interface AddCommentProps {
   cancelComment: () => void;
@@ -66,8 +66,8 @@ const AddComment: React.FC<AddCommentProps> = ({
         )}
         <ConfirmationModal
           isOpen={showWarning}
-          title={CONFIRMATION_MODAL.title}
-          message={CONFIRMATION_MODAL.message}
+          title={DISCARD_COMMENT_CONFIRMATION_MODAL.title}
+          message={DISCARD_COMMENT_CONFIRMATION_MODAL.message}
           onClose={() => {
             setShowWarning(false);
           }}

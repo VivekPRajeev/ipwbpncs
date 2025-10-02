@@ -23,7 +23,7 @@ export function useComments(projectId: string) {
             text: doc.deletedAt ? "message deleted by user" : doc.text,
           }));
 
-          const threadedComments = buildCommentTree(flatComments);
+          const threadedComments = buildCommentTree(flatComments); // restructure linear comments into a tree structure
           setComments(threadedComments);
         });
     };
