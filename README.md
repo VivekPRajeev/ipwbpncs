@@ -106,3 +106,7 @@ TypeScript configuration can be found in `tsconfig.json`. Adjust compiler option
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
+
+# Known Issues
+
+when child comment is deleted ,count in parents comment list is not updated if the child comment does not have any children (because of soft delete)

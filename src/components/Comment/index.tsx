@@ -5,8 +5,9 @@ import { useState } from "react";
 import AddComment from "../AddComment";
 import DeleteButton from "../DeleteButton";
 import { DELETE_COMMENT_CONFIRMATION } from "../../constants/labels";
+import { areAllRepliesDeleted } from "../../utils/calc";
 
-interface CommentProps {
+export interface CommentProps {
   userName: string;
   text: string;
   createdAt: number;
@@ -38,6 +39,10 @@ export const Comment: React.FC<CommentProps> = ({
     addComment(comment, commentId);
     setShowAddComment(false);
   };
+  if (deletedAt && areAllRepliesDeleted(replies)) {
+    // If the comment is deleted and has no replies, render nothing
+    return <></>;
+  }
   return (
     <div className="flex gap-3 relative">
       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1">

@@ -1,5 +1,7 @@
 import { Comment } from "../db/schemas";
+export type NestedComment = Comment & { replies: NestedComment[] };
 
+// Format time difference as "x minutes/hours/days ago"
 export const formatTime = (createdAt: Date) => {
   const now = new Date();
   const diff = now.getTime() - createdAt.getTime();
@@ -22,8 +24,7 @@ export const formatTime = (createdAt: Date) => {
   });
 };
 
-export type NestedComment = Comment & { replies: NestedComment[] };
-
+// Build a tree structure from flat comment list
 export const buildCommentTree = (comments: Comment[]): NestedComment[] => {
   const map = new Map<string, NestedComment>();
 
@@ -50,4 +51,33 @@ export const buildCommentTree = (comments: Comment[]): NestedComment[] => {
   });
 
   return roots;
+};
+
+export interface CommentProps {
+  userName: string;
+  text: string;
+  createdAt: number;
+  deletedAt?: number;
+  commentId: string;
+  replies?: (Omit<
+    CommentProps,
+    "addComment" | "deleteComment" | "commentId"
+  > & {
+    id: string;
+  })[];
+}
+
+/**
+ * Returns true if all replies and nested replies have deletedAt set and non-zero
+ */
+export const areAllRepliesDeleted = (
+  comments: Pick<CommentProps, "deletedAt" | "replies">[] = []
+): boolean => {
+  if (!comments || comments.length === 0) return true; // no replies → considered deleted
+
+  return comments.every((comment) => {
+    const isDeleted = !!comment.deletedAt && comment.deletedAt !== 0;
+    const childrenDeleted = areAllRepliesDeleted(comment.replies || []);
+    return isDeleted && childrenDeleted;
+  });
 };
