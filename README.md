@@ -22,7 +22,7 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 
 ## Assumptions And Considerations Made
 
-1. for the current project a backend server has not been created yet so there are no REST API calls or Backend Databases to sync data for online use
+1. For the current project a backend server has not been created yet so there are no REST API calls or Backend Databases to sync data for online use
 2. User switch is currently not authenticated. For showcasing multi tab usability with different users, the users are currently not authenticated but can be freely switched in the UI from nav
 3. Current User Data is stored in session storage : Since current user need only be preserved for the focused tab, I have decided to store user ID and user Name in the session storage for ease of access. In the event that there is no current data, the first user , Alice is choosen as the current user.
 4. A set of users and Comments are preloaded from a seed in the event that the localDB is empty (In the case of initial load or is the DB is deleted) for the purpose of prefilling data for demo purposes. So when the project is loaded for the first time , there will be some preset comments and users.
@@ -31,7 +31,20 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 7. All Data is currently soft-deleted by setting detetedAt to the time of deletion. This is done for a few reasons :
    1. Will allow future extention where users can undo a delete within a limited time
    2. Audit purposed it is essential to keep records for some time before permanently deleted
-   3. To sync the deleted contents to the online DB easily for future
+   3. To sync the deleted contents to the online DB easily for future.
+8. Validations for the comment input have not been implemented at the moment
+
+## Future Features that can be added
+
+1. show the first reply for a comment and hide the rest untill user clicks on show all comments
+2. Load only few comments initially and load more when user clicks on load more
+3. sort comments by ascending and decending order - button to choose how to sort
+4. view all of current users comments
+5. sync local db with an online DB
+6. Auth for users
+7. Additional Pages for more products
+8. custom User profile picture
+9. Additional comment actions like upvoting , downvoating and sharing
 
 ## Features
 
