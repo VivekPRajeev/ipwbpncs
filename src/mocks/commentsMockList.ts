@@ -1,50 +1,46 @@
-export const commentsMockList = [
+import { Comment } from "../db/schemas";
+
+export const commentsMockList: Comment[] = [
   {
-    id: 1,
+    id: "1",
     userName: "Alice",
     userId: "al0121",
-    text: "Lorem ipsum dolor sit amet!",
-    parentId: null,
-    createdAt: new Date(),
-    deletedAt: null,
-    replies: [],
+    text: "Root comment 1 - This is the first top-level comment",
+    projectId: "project1",
+    parentId: undefined,
+    isSynced: false,
+    createdAt: Date.now() - 3600000, // 1 hour ago
   },
   {
-    id: 3,
-    userName: "Iris",
-    userId: "ir0678",
-    text: "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    parentId: 1,
-    createdAt: new Date(),
-    deletedAt: null,
+    id: "2",
+    text: "Reply to comment 1 - This is a reply to Alice's comment",
+    userId: "b12scv1",
+    userName: "Bob",
+    projectId: "project1",
+    parentId: "1",
+    isSynced: false,
+    createdAt: Date.now() - 3000000, // 50 minutes ago
   },
   {
-    id: 2,
-    userName: "Dex",
-    userId: "dex3live",
-    text: " consectetur adipiscing elit.",
-    parentId: 1,
-    createdAt: new Date(),
-    deletedAt: new Date(),
-  },
-
-  {
-    id: 4,
-    userName: "Nia",
-    userId: "ni0910",
-    text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    parentId: null,
-    createdAt: new Date(),
-    deletedAt: null,
+    id: "3",
+    text: "Root comment 2 - This is the second top-level comment",
+    userId: "user3",
+    userName: "Charlie",
+    projectId: "project1",
+    parentId: undefined,
+    isSynced: false,
+    createdAt: Date.now() - 2400000, // 40 minutes ago
   },
   {
-    id: 5,
-    userName: "Ian",
-    userId: "ian1276",
-    text: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    parentId: 4,
-    createdAt: new Date(),
-    deletedAt: null,
+    id: "4",
+    text: "Reply to reply - This is a nested reply to Bob's comment",
+    userId: "user4",
+    userName: "Diana",
+    projectId: "project1",
+    parentId: "2",
+    isSynced: false,
+    createdAt: Date.now() - 1800000, // 30 minutes ago
   },
 ];
+
 export default commentsMockList;
