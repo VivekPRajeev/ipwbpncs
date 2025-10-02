@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faReply } from "@fortawesome/free-solid-svg-icons";
 import { DateView } from "../DateView";
 import { useState } from "react";
+import AddComment from "../AddComment";
 
 interface CommentProps {
   userName: string;
@@ -18,6 +19,7 @@ export const Comment: React.FC<CommentProps> = ({
   deletedAt,
 }) => {
   const [hideReplies, setHideReplies] = useState(true);
+  const [showAddComment, setShowAddComment] = useState(false);
   return (
     <div className="flex gap-3 relative">
       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1">
@@ -32,11 +34,22 @@ export const Comment: React.FC<CommentProps> = ({
           {deletedAt == null ? text : <i>message deleted by user</i>}
         </p>
         <div className="flex justify-start mt-2">
-          <button className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600">
-            <FontAwesomeIcon icon={faReply} />
-            Reply
-          </button>
+          {!showAddComment && (
+            <button
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600"
+              onClick={() => setShowAddComment(!showAddComment)}
+            >
+              <FontAwesomeIcon icon={faReply} />
+              Reply
+            </button>
+          )}
         </div>
+        {showAddComment && (
+          <AddComment
+            cancelComment={() => setShowAddComment(false)}
+            submitComment={(comment: string) => console.log("comment", comment)}
+          />
+        )}
         {hideReplies && replies && replies.length > 0 && (
           <button
             onClick={() => setHideReplies(false)}
