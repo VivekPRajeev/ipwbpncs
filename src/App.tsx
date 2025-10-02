@@ -2,10 +2,21 @@ import { Comment } from "./components/Comment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useComments } from "./hooks/useComments";
+interface commentInput {
+  userName: string;
+  userId: string;
+  id?: string;
+}
+interface AddCommentHandler {
+  (text: string, parentCommentId: string | undefined): void;
+}
 
 function App() {
   const { comments, addComment, deleteComment } = useComments("project1"); //  Using a static projectId for demo purposes
 
+  const addCommentHandler: AddCommentHandler = (text, parentCommentId) => {
+    addComment(text, parentCommentId);
+  };
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -36,6 +47,10 @@ function App() {
             createdAt={comment.createdAt}
             replies={comment.replies}
             deletedAt={comment.deletedAt ? comment.deletedAt : undefined}
+            addComment={(text, parentCommentId) =>
+              addCommentHandler(text, parentCommentId)
+            }
+            commentId={comment.id} // Pass the comment
           />
         ))}
       </div>

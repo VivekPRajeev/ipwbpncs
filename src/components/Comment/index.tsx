@@ -9,7 +9,9 @@ interface CommentProps {
   text: string;
   createdAt: number;
   deletedAt?: number;
-  replies?: CommentProps[];
+  commentId?: string;
+  replies?: Omit<CommentProps, "addComment">[];
+  addComment: (text: string, commentId: string | undefined) => void;
 }
 export const Comment: React.FC<CommentProps> = ({
   userName,
@@ -17,9 +19,16 @@ export const Comment: React.FC<CommentProps> = ({
   createdAt,
   replies,
   deletedAt,
+  commentId,
+  addComment,
 }) => {
   const [hideReplies, setHideReplies] = useState(true);
   const [showAddComment, setShowAddComment] = useState(false);
+
+  const submitComment = (comment: string) => {
+    addComment(comment, commentId);
+    setShowAddComment(false);
+  };
   return (
     <div className="flex gap-3 relative">
       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-1">
@@ -47,7 +56,7 @@ export const Comment: React.FC<CommentProps> = ({
         {showAddComment && (
           <AddComment
             cancelComment={() => setShowAddComment(false)}
-            submitComment={(comment: string) => console.log("comment", comment)}
+            submitComment={(comment: string) => submitComment(comment)}
           />
         )}
         {hideReplies && replies && replies.length > 0 && (
@@ -61,7 +70,13 @@ export const Comment: React.FC<CommentProps> = ({
         {!hideReplies && replies && replies.length > 0 && (
           <div className="mt-4 border-l-2 border-gray-200 pl-4">
             {replies.map((reply, index) => (
-              <Comment key={index} {...reply} />
+              <Comment
+                key={index}
+                {...reply}
+                addComment={(text, parentComment) =>
+                  addComment(text, parentComment)
+                }
+              />
             ))}
           </div>
         )}
