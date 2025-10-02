@@ -10,7 +10,7 @@ interface CommentProps {
   createdAt: number;
   deletedAt?: number;
   commentId?: string;
-  replies?: Omit<CommentProps, "addComment">[];
+  replies?: (Omit<CommentProps, "addComment"> & { id: string })[];
   addComment: (text: string, commentId: string | undefined) => void;
 }
 export const Comment: React.FC<CommentProps> = ({
@@ -73,9 +73,8 @@ export const Comment: React.FC<CommentProps> = ({
               <Comment
                 key={index}
                 {...reply}
-                addComment={(text, parentComment) =>
-                  addComment(text, parentComment)
-                }
+                commentId={reply.id}
+                addComment={addComment}
               />
             ))}
           </div>

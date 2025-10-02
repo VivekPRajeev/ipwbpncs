@@ -47,7 +47,7 @@ export function useComments(projectId: string) {
         projectId,
         parentId,
         createdAt: Date.now(),
-        deletedAt: null,
+        deletedAt: undefined,
         isSynced: false,
       });
     },
