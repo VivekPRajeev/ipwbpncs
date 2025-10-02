@@ -5,6 +5,7 @@ import { useComments } from "./hooks/useComments";
 import { Nav } from "./components/Nav";
 import { getCurrentUser } from "./utils/session";
 import { UserProvider } from "./hooks/useCurrentUser";
+import AddComment from "./components/AddComment";
 
 interface AddCommentHandler {
   (text: string, parentCommentId: string | undefined): void;
@@ -20,6 +21,9 @@ function App() {
 
   const deleteCommentHandler = (id: string) => {
     deleteComment(id);
+  };
+  const addCommentAction = (text: string) => {
+    addCommentHandler(text, undefined);
   };
   return (
     <>
@@ -49,6 +53,10 @@ function App() {
               />
               <h2 className="text-2xl font-semibold">Comments</h2>
             </div>
+            <AddComment
+              hasCancelButton={false}
+              submitComment={(text) => addCommentAction(text)}
+            />
             {comments.map((comment) => (
               <Comment
                 key={comment.id}

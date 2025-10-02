@@ -3,7 +3,7 @@ import ConfirmationModal from "../ConfirmationModal";
 import { DISCARD_COMMENT_CONFIRMATION_MODAL } from "../../constants/labels";
 
 interface AddCommentProps {
-  cancelComment: () => void;
+  cancelComment?: () => void;
   submitComment: (comment: string) => void;
   submitLabel?: string;
   hasCancelButton?: boolean;
@@ -29,7 +29,7 @@ const AddComment: React.FC<AddCommentProps> = ({
     if (comment.trim() !== "") {
       setShowWarning(true);
     } else {
-      cancelComment();
+      cancelComment && cancelComment();
     }
   };
   const handleSubmit = () => {
@@ -43,11 +43,12 @@ const AddComment: React.FC<AddCommentProps> = ({
     <div className="relative w-full">
       <textarea
         ref={commentInputRef}
+        value={comment}
         className="w-full border border-gray-300 rounded-md p-2 pr-32 pb-14 "
         rows={3}
         placeholder="Write a comment..."
         onChange={(e) => setComment(e.target.value)}
-      ></textarea>
+      />
 
       <div className="absolute bottom-2 right-2 flex space-x-2">
         <button
@@ -71,7 +72,7 @@ const AddComment: React.FC<AddCommentProps> = ({
           onClose={() => {
             setShowWarning(false);
           }}
-          onConfirm={cancelComment}
+          onConfirm={() => cancelComment && cancelComment()}
         />
       </div>
     </div>
