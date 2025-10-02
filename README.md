@@ -45,6 +45,8 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 7. Additional Pages for more products
 8. custom User profile picture
 9. Additional comment actions like upvoting , downvoating and sharing
+10. Pin comment to top
+11. Search comments
 
 ## Features
 
