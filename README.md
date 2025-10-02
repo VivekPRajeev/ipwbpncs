@@ -20,7 +20,8 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
     - User comments are preserved between tabs
     - User  can switch  bettwen other users from the nav bar
 
-    ## Assumptions And Considerations Made
+## Assumptions And Considerations Made
+
         - for the  current project a backend server has not been created  yet so there are no REST API calls or  Backend Databases to sync data  for online use
         - User switch  is currently not authenticated. For showcasing multi tab usability with different users, the users are currently not authenticated but can be freely switched  in the UI from nav
         - Current User Data  is  stored in session storage : Since current user need only be preserved for the focused tab, I have decided to store user ID and user Name in the session storage for ease of access. In the event that there is no current data, the first user  , Alice is choosen as the current user.
