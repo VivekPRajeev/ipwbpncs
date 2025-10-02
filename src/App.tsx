@@ -1,8 +1,12 @@
 import { Comment } from "./components/Comment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment, faUser } from "@fortawesome/free-solid-svg-icons";
-import { commentsMockList } from "./mocks/commentsMockList";
+import { useProjectComments } from "./hooks/useComments";
+
 function App() {
+  const { comments, addComment, deleteComment } =
+    useProjectComments("project1");
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex items-center gap-3 mb-4">
@@ -25,14 +29,16 @@ function App() {
           <FontAwesomeIcon icon={faComment} className="text-xl text-gray-600" />
           <h2 className="text-2xl font-semibold">Comments</h2>
         </div>
-        {commentsMockList.map((comment) => (
+        {comments.map((comment) => (
           <Comment
             key={comment.id}
             userName={comment.userName}
             text={comment.text}
-            createdAt={comment.createdAt}
+            createdAt={new Date(comment.createdAt)}
             replies={comment.replies}
-            deletedAt={comment.deletedAt}
+            deletedAt={
+              comment.deletedAt ? new Date(comment.deletedAt) : undefined
+            }
           />
         ))}
       </div>
