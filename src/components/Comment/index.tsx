@@ -6,9 +6,9 @@ import { useState } from "react";
 interface CommentProps {
   userName: string;
   text: string;
-  createdAt: Date;
-  deletedAt?: Date | null;
-  replies?: CommentProps[]; // For nested comments (replies)
+  createdAt: number;
+  deletedAt?: number;
+  replies?: CommentProps[];
 }
 export const Comment: React.FC<CommentProps> = ({
   userName,
@@ -26,7 +26,7 @@ export const Comment: React.FC<CommentProps> = ({
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
           <span className="font-bold text-gray-900">{userName}</span>
-          <DateView createdAt={createdAt} />
+          <DateView createdAt={new Date(createdAt)} />
         </div>
         <p className="text-gray-700">
           {deletedAt == null ? text : <i>message deleted by user</i>}
@@ -48,13 +48,7 @@ export const Comment: React.FC<CommentProps> = ({
         {!hideReplies && replies && replies.length > 0 && (
           <div className="mt-4 border-l-2 border-gray-200 pl-4">
             {replies.map((reply, index) => (
-              <Comment
-                key={index}
-                userName={reply.userName}
-                text={reply.text}
-                createdAt={reply.createdAt}
-                replies={reply.replies}
-              />
+              <Comment key={index} {...reply} />
             ))}
           </div>
         )}

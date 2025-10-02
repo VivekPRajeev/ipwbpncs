@@ -1,20 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { initDB } from "../db/db";
 import { populateDefaults } from "../db/seed";
+import { Comment } from "../db/schemas";
+import { buildCommentTree, NestedComment } from "../utils/calc";
 
-interface Comment {
-  id: string;
-  userName: string;
-  text: string;
-  createdAt: Date;
-  replies?: Comment[];
-  deletedAt?: Date;
-  parentId?: string | null;
-  projectId: string;
-}
-
-export function useProjectComments(projectId: string) {
-  const [comments, setComments] = useState<Comment[]>([]);
+export function useComments(projectId: string) {
+  const [comments, setComments] = useState<NestedComment[]>([]);
   const [db, setDb] = useState<any>(null);
 
   // Setup DB + subscription
@@ -24,21 +15,18 @@ export function useProjectComments(projectId: string) {
       await populateDefaults();
       const database = await initDB();
       setDb(database);
-
       sub = database.comments
         .find({ selector: { projectId } })
-        .$.subscribe((docs: any[]) =>
-          setComments(
-            docs.map((doc) => ({
-              ...doc.toJSON(),
-              text: doc.deletedAt ? "message deleted by user" : doc.text,
-              createdAt: new Date(doc.createdAt),
-              deletedAt: doc.deletedAt ? new Date(doc.deletedAt) : undefined,
-            }))
-          )
-        );
-    };
+        .$.subscribe((docs: any[]) => {
+          const flatComments: Comment[] = docs.map((doc) => ({
+            ...doc.toJSON(),
+            text: doc.deletedAt ? "message deleted by user" : doc.text,
+          }));
 
+          const threadedComments = buildCommentTree(flatComments);
+          setComments(threadedComments);
+        });
+    };
     setup();
 
     return () => {
@@ -66,7 +54,7 @@ export function useProjectComments(projectId: string) {
     [db, projectId]
   );
 
-  // Soft delete (mark deletedAt)
+  // Soft delete
   const deleteComment = useCallback(
     async (id: string) => {
       if (!db) return;

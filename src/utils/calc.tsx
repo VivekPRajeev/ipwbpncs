@@ -1,3 +1,5 @@
+import { Comment } from "../db/schemas";
+
 export const formatTime = (createdAt: Date) => {
   const now = new Date();
   const diff = now.getTime() - createdAt.getTime();
@@ -18,4 +20,34 @@ export const formatTime = (createdAt: Date) => {
     month: "short",
     day: "numeric",
   });
+};
+
+export type NestedComment = Comment & { replies: NestedComment[] };
+
+export const buildCommentTree = (comments: Comment[]): NestedComment[] => {
+  const map = new Map<string, NestedComment>();
+
+  // first pass → create all nodes
+  comments.forEach((comment) => {
+    map.set(comment.id, { ...comment, replies: [] });
+  });
+
+  const roots: NestedComment[] = [];
+
+  // second pass → assign children to parents
+  map.forEach((comment) => {
+    if (comment.parentId) {
+      const parent = map.get(comment.parentId);
+      if (parent) {
+        parent.replies.push(comment);
+      } else {
+        // if parent missing (edge case), treat as root
+        roots.push(comment);
+      }
+    } else {
+      roots.push(comment);
+    }
+  });
+
+  return roots;
 };
