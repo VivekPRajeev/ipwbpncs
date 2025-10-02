@@ -1,4 +1,4 @@
-import type { RxJsonSchema } from "rxdb";
+import type { RxCollection, RxJsonSchema } from "rxdb";
 
 export interface User {
   id: string;
@@ -17,6 +17,11 @@ export interface Comment {
   isSynced: boolean;
   createdAt: number;
   deletedAt?: number;
+}
+
+export interface DatabaseType {
+  comments: RxCollection<Comment>;
+  users: RxCollection<User>;
 }
 
 // User schema

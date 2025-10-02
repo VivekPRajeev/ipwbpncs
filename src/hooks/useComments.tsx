@@ -1,38 +1,33 @@
 import { useEffect, useState, useCallback } from "react";
-import { initDB } from "../db/db";
-import { populateDefaults } from "../db/seed";
 import { Comment } from "../db/schemas";
 import { buildCommentTree, NestedComment } from "../utils/calc";
+import { useDatabase } from "./useDatabase";
+import { RxDocument } from "rxdb";
+import { Subscription } from "rxjs";
 
 export function useComments(projectId: string) {
+  const db = useDatabase();
   const [comments, setComments] = useState<NestedComment[]>([]);
-  const [db, setDb] = useState<any>(null);
 
-  // Setup DB + subscription
   useEffect(() => {
-    let sub: any;
-    const setup = async () => {
-      await populateDefaults();
-      const database = await initDB();
-      setDb(database);
-      sub = database.comments
-        .find({ selector: { projectId }, sort: [{ createdAt: "asc" }] })
-        .$.subscribe((docs: any[]) => {
-          const flatComments: Comment[] = docs.map((doc) => ({
-            ...doc.toJSON(),
-            text: doc.deletedAt ? "message deleted by user" : doc.text,
-          }));
+    if (!db) return;
+    let sub: Subscription;
+    sub = db.comments
+      .find({ selector: { projectId }, sort: [{ createdAt: "asc" }] })
+      .$.subscribe((docs: RxDocument<Comment>[]) => {
+        const flatComments: Comment[] = docs.map((doc) => ({
+          ...doc.toJSON(),
+          text: doc.deletedAt ? "message deleted by user" : doc.text,
+        }));
 
-          const threadedComments = buildCommentTree(flatComments); // restructure linear comments into a tree structure
-          setComments(threadedComments);
-        });
-    };
-    setup();
+        const threadedComments = buildCommentTree(flatComments); // restructure linear comments into a tree structure
+        setComments(threadedComments);
+      });
 
     return () => {
       if (sub) sub.unsubscribe();
     };
-  }, [projectId]);
+  }, [db, projectId]);
 
   // Add a new comment
   const addComment = useCallback(
