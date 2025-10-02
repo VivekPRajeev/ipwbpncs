@@ -65,6 +65,8 @@ export const Comment: React.FC<CommentProps> = ({
             <button
               className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 ml-2"
               onClick={() => setShowAddComment(!showAddComment)}
+              title="Reply"
+              aria-label="Reply"
             >
               <FontAwesomeIcon icon={faReply} />
               Reply
@@ -73,6 +75,8 @@ export const Comment: React.FC<CommentProps> = ({
           {hideReplies && replies && replies.length > 0 && (
             <button
               onClick={() => setHideReplies(false)}
+              title="Show Replies"
+              aria-label="Show Replies"
               className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 ml-2"
             >
               <FontAwesomeIcon icon={faComment} />
@@ -82,6 +86,8 @@ export const Comment: React.FC<CommentProps> = ({
           {!hideReplies && replies && replies.length > 0 && (
             <button
               onClick={() => setHideReplies(true)}
+              title="Hide Replies"
+              aria-label="Hide Replies"
               className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 ml-2"
             >
               <FontAwesomeIcon icon={faEyeSlash} />
@@ -102,20 +108,21 @@ export const Comment: React.FC<CommentProps> = ({
             submitComment={(comment: string) => submitComment(comment)}
           />
         )}
-
-        {!hideReplies && replies && replies.length > 0 && (
-          <div className="mt-4 border-l-2 border-gray-200 pl-4">
-            {replies.map((reply, index) => (
-              <Comment
-                key={index}
-                {...reply}
-                commentId={reply.id}
-                addComment={addComment}
-                deleteComment={deleteComment}
-              />
-            ))}
-          </div>
-        )}
+        <div className="mt-2">
+          {!hideReplies && replies && replies.length > 0 && (
+            <div className="mt-4 border-l-2 border-gray-200 pl-4">
+              {replies.map((reply, index) => (
+                <Comment
+                  key={index}
+                  {...reply}
+                  commentId={reply.id}
+                  addComment={addComment}
+                  deleteComment={deleteComment}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

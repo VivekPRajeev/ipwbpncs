@@ -20,6 +20,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
     <>
       <button
         onClick={() => setShowDeleteWarning(true)}
+        title="Delete"
+        aria-label="Delete"
         className="flex items-center gap-1 text-sm text-gray-500 hover:text-red-600 ml-2"
       >
         <FontAwesomeIcon icon={faTrash} />

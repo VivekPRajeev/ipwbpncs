@@ -40,7 +40,7 @@ const AddComment: React.FC<AddCommentProps> = ({
   };
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full mt-2 mb-2">
       <textarea
         ref={commentInputRef}
         value={comment}
