@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faReply } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faReply, faComment } from "@fortawesome/free-solid-svg-icons";
 import { DateView } from "../DateView";
 import { useState } from "react";
 import AddComment from "../AddComment";
@@ -45,11 +45,20 @@ export const Comment: React.FC<CommentProps> = ({
         <div className="flex justify-start mt-2">
           {!showAddComment && (
             <button
-              className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600"
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 ml-2"
               onClick={() => setShowAddComment(!showAddComment)}
             >
               <FontAwesomeIcon icon={faReply} />
               Reply
+            </button>
+          )}
+          {hideReplies && replies && replies.length > 0 && (
+            <button
+              onClick={() => setHideReplies(false)}
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 ml-2"
+            >
+              <FontAwesomeIcon icon={faComment} />
+              {replies.length} {replies.length > 1 ? "Comments" : "Comment"}
             </button>
           )}
         </div>

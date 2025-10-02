@@ -16,7 +16,7 @@ export function useComments(projectId: string) {
       const database = await initDB();
       setDb(database);
       sub = database.comments
-        .find({ selector: { projectId } })
+        .find({ selector: { projectId }, sort: [{ createdAt: "asc" }] })
         .$.subscribe((docs: any[]) => {
           const flatComments: Comment[] = docs.map((doc) => ({
             ...doc.toJSON(),
