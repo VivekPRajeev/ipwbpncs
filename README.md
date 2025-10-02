@@ -6,19 +6,20 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 
     This is an assignment project built using React for the  purpose of rendering a React component where users can add and remove text based comments.
 
-    Features Include the following :
-    - Uses local Database to have an offline first web application that loads a comments section
-    - Ability to view all comments
-    - Users can reply to  comments and comments of comments in a nested manner
-    - Users  can add new comments to  the page
-    - User can reply to another users comment
-    - User can  delete their own  comment
-    - If users deleted  comment does not have any replies , the  data will be removed completely from the  UI
-    - If user deleted comment has replies that are  not deleted, the deleted comment is replaced by text informing the deleted status of the comment , preserving the remaining thread.
-    - Added isSync to the tables so that local table can be synced to a backend Database for online connectivity (Feature to be implemented in the future)
-    - User can preserve comments and intereactions after reload or relaunching the application
-    - User comments are preserved between tabs
-    - User  can switch  bettwen other users from the nav bar
+## Features Include the following :
+
+- Uses local Database to have an offline first web application that loads a comments section
+- Ability to view all comments
+- Users can reply to comments and comments of comments in a nested manner
+- Users can add new comments to the page
+- User can reply to another users comment
+- User can delete their own comment
+- If users deleted comment does not have any replies , the data will be removed completely from the UI
+- If user deleted comment has replies that are not deleted, the deleted comment is replaced by text informing the deleted status of the comment , preserving the remaining thread.
+- Added isSync to the tables so that local table can be synced to a backend Database for online connectivity (Feature to be implemented in the future)
+- User can preserve comments and intereactions after reload or relaunching the application
+- User comments are preserved between tabs
+- User can switch bettwen other users from the nav bar
 
 ## Assumptions And Considerations Made
 
@@ -48,17 +49,13 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 10. Pin comment to top
 11. Search comments
 
-## Features
+## Design Choices
 
-- React 19
-- TypeScript for type safety
-- Tailwind CSS v3 for styling
-- Vite for fast development and building
-- ESLint for code quality
-- Hot Module Replacement (HMR)
-- Font Awesome icons integration
-- Vitest for test cases
-- RxDB + dexie for Local Database management
+1. I mainly used forums like Reddit as a base reference for the comment UI
+2. Tailwind was used as it facilitates the creation of responsive and elegant components out of the box.
+3. RxDb with Dexie was chosen as It allows easy management of the local DB while also allows for multi tab concurency without much effort
+4. Decided on soft-delete of records rather than hard delete
+5. Decided to maintain comments with generic deleted comment message if the comment is deleted and had child comments, This method was chosen as it preserves the thread and other users comments . Otherwise, all child comments would have to be removed (Which if they are not from same user is not a good approach) or the replies would go to the first level since the parent comment isnt avaialble, which would lead to difficulty interpreting the contents of the thread as a whole.
 
 ## Getting Started
 
