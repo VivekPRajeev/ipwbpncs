@@ -64,7 +64,14 @@ npm run lint
 
 ```
 src/
+├── components       # Reusable react components
+├── constants        # constant files
+├── db               # DB connection helper files
+├── hooks            # custom react hooks
+├── mocks            # Mockfiles for testing
+├── utils            # reusable utility functions
 ├── App.tsx          # Main App component
+├── fontawesome.ts   # Icons
 ├── main.tsx         # Application entry point
 └── index.css        # Global styles with Tailwind directives
 ```

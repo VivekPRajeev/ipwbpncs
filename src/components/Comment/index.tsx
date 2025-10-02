@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faReply, faComment } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faReply, faComment, faEyeSlash } from "../../fontawesome";
 import { DateView } from "../DateView";
 import { useState } from "react";
 import AddComment from "../AddComment";
@@ -61,6 +61,15 @@ export const Comment: React.FC<CommentProps> = ({
               {replies.length} {replies.length > 1 ? "Comments" : "Comment"}
             </button>
           )}
+          {!hideReplies && replies && replies.length > 0 && (
+            <button
+              onClick={() => setHideReplies(true)}
+              className="flex items-center gap-1 text-sm text-gray-500 hover:text-blue-600 ml-2"
+            >
+              <FontAwesomeIcon icon={faEyeSlash} />
+              Hide Replies
+            </button>
+          )}
         </div>
         {showAddComment && (
           <AddComment
@@ -68,14 +77,7 @@ export const Comment: React.FC<CommentProps> = ({
             submitComment={(comment: string) => submitComment(comment)}
           />
         )}
-        {hideReplies && replies && replies.length > 0 && (
-          <button
-            onClick={() => setHideReplies(false)}
-            className="mt-2 text-sm text-gray-600 hover:text-gray-800"
-          >
-            View {replies.length} {replies.length > 1 ? "replies" : "reply"}
-          </button>
-        )}
+
         {!hideReplies && replies && replies.length > 0 && (
           <div className="mt-4 border-l-2 border-gray-200 pl-4">
             {replies.map((reply, index) => (

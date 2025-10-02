@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ConfirmationModal from "../ConfirmationModal";
 import { CONFIRMATION_MODAL } from "../../constants/labels";
 
@@ -17,6 +17,13 @@ const AddComment: React.FC<AddCommentProps> = ({
 }) => {
   const [comment, setComment] = useState("");
   const [showWarning, setShowWarning] = useState(false);
+  const commentInputRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (commentInputRef.current) {
+      commentInputRef.current.focus(); // Focus the textarea on mount for WCAG compliance
+    }
+  }, []);
 
   const handleCancel = () => {
     if (comment.trim() !== "") {
@@ -31,9 +38,11 @@ const AddComment: React.FC<AddCommentProps> = ({
       setComment("");
     }
   };
+
   return (
     <div className="relative w-full">
       <textarea
+        ref={commentInputRef}
         className="w-full border border-gray-300 rounded-md p-2 pr-32 pb-14 "
         rows={3}
         placeholder="Write a comment..."

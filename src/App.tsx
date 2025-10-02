@@ -1,6 +1,6 @@
 import { Comment } from "./components/Comment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComment, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faComment, faUser } from "./fontawesome";
 import { useComments } from "./hooks/useComments";
 interface commentInput {
   userName: string;
