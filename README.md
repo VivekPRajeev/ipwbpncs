@@ -4,13 +4,15 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 
 ## Features
 
-- React 19 (latest version)
+- React 19
 - TypeScript for type safety
 - Tailwind CSS v3 for styling
 - Vite for fast development and building
 - ESLint for code quality
 - Hot Module Replacement (HMR)
 - Font Awesome icons integration
+- Vitest for test cases
+- RxDB + dexie for Local Database management
 
 ## Getting Started
 
@@ -18,7 +20,33 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 
 Make sure you have Node.js (version 16 or higher) installed on your machine.
 
-### Installation
+## Installation
+
+The project can be set up either using Docker or by using npm both methods are explained below
+
+### Using docker
+
+    Deployment using Docker
+
+### Development (with hot reload)
+
+```bash
+    npm run docker:dev
+```
+
+### Production (optimized build)
+
+```bash
+    npm run docker:prod
+```
+
+### Run tests
+
+```bash
+    npm run docker:test
+```
+
+---
 
 1. Install dependencies:
 
@@ -93,7 +121,10 @@ src/
 ├── App.tsx          # Main App component
 ├── fontawesome.ts   # Icons
 ├── main.tsx         # Application entry point
-└── index.css        # Global styles with Tailwind directives
+├── index.css        # Global styles with Tailwind directives
+├── test/
+│   ├── setup.ts     # Global test setup
+│   └── utils.tsx    # Test utilities and helpers
 ```
 
 ## Technologies Used
@@ -104,6 +135,10 @@ src/
 - **Vite**: Next generation frontend tooling
 - **ESLint**: Pluggable linting utility for JavaScript and TypeScript
 - **Font Awesome**: The web's most popular icon set and toolkit
+- **RxDB**: A fast, local-first, reactive Database for JavaScript Applications
+- **Dexie**: A Minimalistic Wrapper for IndexedDB
+- **Husky**: Ultra-fast modern native git hooks
+- **Vitest**: Next Generation Testing Framework
 
 ## Customization
 
@@ -129,4 +164,5 @@ This project is open source and available under the [MIT License](LICENSE).
 
 # Known Issues
 
-when child comment is deleted ,count in parents comment list is not updated if the child comment does not have any children (because of soft delete)
+- when child comment is deleted ,count in parents comment list is not updated if the child comment does not have any children (because of soft delete)
+- Scroll to bottom after adding comment does not focus on the latest comment

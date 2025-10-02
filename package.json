@@ -12,7 +12,14 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "docker:dev": "docker-compose --profile dev up --build",
+    "docker:prod": "docker-compose --profile prod up --build",
+    "docker:test": "docker-compose --profile test up --build",
+    "docker:build": "docker build -t react-comments-app .",
+    "docker:build-dev": "docker build -f Dockerfile.dev -t react-comments-app-dev .",
+    "docker:run": "docker run -p 80:80 react-comments-app",
+    "docker:run-dev": "docker run -p 5173:5173 -v $(pwd):/app react-comments-app-dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.1.0",
