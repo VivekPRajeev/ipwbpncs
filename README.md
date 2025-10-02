@@ -60,6 +60,26 @@ Run ESLint to check for code quality issues:
 npm run lint
 ```
 
+## Testing Guide
+
+This project uses **Vitest** with **React Testing Library** for comprehensive testing.
+
+### Running Tests
+
+```bash
+# Run tests in watch mode
+npm test
+
+# Run tests once
+npm run test:run
+
+# Run tests with UI (interactive)
+npm run test:ui
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
 ## Project Structure
 
 ```
