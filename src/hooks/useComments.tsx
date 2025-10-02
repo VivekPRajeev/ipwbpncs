@@ -6,7 +6,7 @@ import { RxDocument } from "rxdb";
 import { Subscription } from "rxjs";
 
 export function useComments(projectId: string) {
-  const db = useDatabase();
+  const { db } = useDatabase();
   const [comments, setComments] = useState<NestedComment[]>([]);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { Subscription } from "rxjs";
 import { RxDocument } from "rxdb";
 
 export const useUsers = () => {
-  const db = useDatabase();
+  const { db } = useDatabase();
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {

@@ -7,12 +7,16 @@ import { getCurrentUser } from "./utils/session";
 import { UserProvider } from "./hooks/useCurrentUser";
 import AddComment from "./components/AddComment";
 import { useRef } from "react";
+import { useDatabase } from "./hooks/useDatabase";
+import CommentSkeleton from "./components/CommentSkeleton";
 
 interface AddCommentHandler {
   (text: string, parentCommentId: string | undefined): void;
 }
 
 function App() {
+  const { loading } = useDatabase();
+  console.log("Database loading state:", loading);
   const { comments, addComment, deleteComment } = useComments("project1"); //  Using a static projectId for demo purposes
   const lastCommentRef = useRef<HTMLDivElement | null>(null);
   const addCommentHandler: AddCommentHandler = (text, parentCommentId) => {
@@ -65,27 +69,33 @@ function App() {
               hasCancelButton={false}
               submitComment={(text) => addCommentAction(text)}
             />
-            {comments.map((comment, index) => (
-              <div
-                key={comment.id}
-                className="mt-1"
-                ref={index === comments.length - 1 ? lastCommentRef : null} // ref added to  the last comment for scrolling
-              >
-                <Comment
-                  userId={comment.userId}
-                  commentId={comment.id} // Pass the comment id for reply association
-                  userName={comment.userName}
-                  text={comment.text}
-                  createdAt={comment.createdAt}
-                  replies={comment.replies}
-                  deletedAt={comment.deletedAt ? comment.deletedAt : undefined}
-                  addComment={(text, parentCommentId) =>
-                    addCommentHandler(text, parentCommentId)
-                  }
-                  deleteComment={deleteCommentHandler}
-                />
-              </div>
-            ))}
+            {loading ? (
+              <CommentSkeleton />
+            ) : (
+              comments.map((comment, index) => (
+                <div
+                  key={comment.id}
+                  className="mt-1"
+                  ref={index === comments.length - 1 ? lastCommentRef : null} // ref added to  the last comment for scrolling
+                >
+                  <Comment
+                    userId={comment.userId}
+                    commentId={comment.id} // Pass the comment id for reply association
+                    userName={comment.userName}
+                    text={comment.text}
+                    createdAt={comment.createdAt}
+                    replies={comment.replies}
+                    deletedAt={
+                      comment.deletedAt ? comment.deletedAt : undefined
+                    }
+                    addComment={(text, parentCommentId) =>
+                      addCommentHandler(text, parentCommentId)
+                    }
+                    deleteComment={deleteCommentHandler}
+                  />
+                </div>
+              ))
+            )}
           </div>
         </div>
       </UserProvider>
