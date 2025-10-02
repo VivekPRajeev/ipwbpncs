@@ -4,7 +4,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  isSynced: boolean;
+  isSynced: boolean; // added to track sync status with remote DB for future use
 }
 
 export interface Comment {
@@ -14,7 +14,7 @@ export interface Comment {
   userName: string;
   projectId: string;
   parentId?: string;
-  isSynced: boolean;
+  isSynced: boolean; // added to track sync status with remote DB for future use
   createdAt: number;
   deletedAt?: number;
 }
