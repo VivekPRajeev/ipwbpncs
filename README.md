@@ -153,6 +153,12 @@ npm run test:ui
 npm run test:coverage
 ```
 
+## Disabling Husky
+
+Husky is added to this project so that test cases are auto triggered when were the developer tries to push code , (It is triggered by git push) .
+
+If for any reason husky needs to be disabled , it can be done so by commenting the contents of the file pre-push found in .husky folder
+
 ## Project Structure
 
 ```
