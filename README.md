@@ -2,6 +2,29 @@
 
 A modern React application built with TypeScript and styled with Tailwind CSS.
 
+# About the Project
+
+    This is an assignment project built using React for the  purpose of rendering a React component where users can add and remove text based comments.
+
+    Features Include the following :
+    - Uses local Database to have an offline first web application that loads a comments section
+    - Ability to view all comments
+    - Users can reply to  comments and comments of comments in a nested manner
+    - Users  can add new comments to  the page
+    - User can reply to another users comment
+    - User can  delete their own  comment
+    - If users deleted  comment does not have any replies , the  data will be removed completely from the  UI
+    - If user deleted comment has replies that are  not deleted, the deleted comment is replaced by text informing the deleted status of the comment , preserving the remaining thread.
+    - Added isSync to the tables so that local table can be synced to a backend Database for online connectivity (Feature to be implemented in the future)
+    - User can preserve comments and intereactions after reload or relaunching the application
+    - User comments are preserved between tabs
+    - User  can switch  bettwen other users from the nav bar
+
+    ## Assumptions And Considerations Made
+        - for the  current project a backend server has not been created  yet so there are no REST API calls or  Backend Databases to sync data  for online use
+        - User switch  is currently not authenticated. For showcasing multi tab usability with different users, the users are currently not authenticated but can be freely switched  in the UI from nav
+        - Current User Data  is  stored in session storage : Since current user need only be preserved for the focused tab, I have decided to store user ID and user Name in the session storage for ease of access. In the event that there is no current data, the first user  , Alice is choosen as the current user.
+
 ## Features
 
 - React 19
@@ -23,6 +46,12 @@ Make sure you have Node.js (version 16 or higher) installed on your machine.
 ## Installation
 
 The project can be set up either using Docker or by using npm both methods are explained below
+
+Install dependencies:
+
+```bash
+npm install
+```
 
 ### Using docker
 
@@ -48,11 +77,7 @@ The project can be set up either using Docker or by using npm both methods are e
 
 ---
 
-1. Install dependencies:
-
-```bash
-npm install
-```
+### Without using docker
 
 ### Development
 
