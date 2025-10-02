@@ -2,26 +2,40 @@ import { useEffect, useState } from "react";
 import { getCurrentUser, setCurrentUser } from "../../utils/session";
 import { useUsers } from "../../hooks/useUsers";
 import { User } from "../../db/schemas";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 type CurrentUser = Pick<User, "id" | "name">;
 
 export const Nav = () => {
   const users = useUsers();
-  const [currentUserState, setCurrentUserState] = useState<CurrentUser>(
-    users[0]
-  );
+  const { currentUser: currentUserState, setCurrentUser: setCurrentUserState } =
+    useCurrentUser();
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const handleSwitchUser = (user: User) => {
-    setCurrentUserState(user);
-    setCurrentUser(user);
+    setCurrentUserState(user); // for context
+    setCurrentUser(user); // for session storage
     setShowDropdown(false);
   };
 
   useEffect(() => {
-    const user = getCurrentUser();
-    setCurrentUserState(user);
-  }, []);
+    if (currentUserState) return; // already set
+
+    const sessionUser = getCurrentUser(); // get from session storage
+    if (sessionUser) {
+      setCurrentUserState(sessionUser);
+    } else if (users.length > 0) {
+      const defaultUser: CurrentUser = {
+        id: users[0].id,
+        name: users[0].name,
+      };
+      setCurrentUserState(defaultUser);
+      setCurrentUser(defaultUser);
+    } else {
+      console.log("No users available to set as current user.");
+    }
+  }, [currentUserState, users, setCurrentUserState]);
+
   return (
     <nav className="bg-gray-800 text-white flex justify-between items-center px-6 py-3 relative">
       <div className="text-lg font-bold">App</div>

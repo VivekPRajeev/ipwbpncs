@@ -6,8 +6,10 @@ import AddComment from "../AddComment";
 import DeleteButton from "../DeleteButton";
 import { DELETE_COMMENT_CONFIRMATION } from "../../constants/labels";
 import { areAllRepliesDeleted } from "../../utils/calc";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 
 export interface CommentProps {
+  userId: string;
   userName: string;
   text: string;
   createdAt: number;
@@ -23,6 +25,7 @@ export interface CommentProps {
   deleteComment: (commentId: string) => void;
 }
 export const Comment: React.FC<CommentProps> = ({
+  userId,
   userName,
   text,
   createdAt,
@@ -32,6 +35,7 @@ export const Comment: React.FC<CommentProps> = ({
   addComment,
   deleteComment,
 }) => {
+  const { currentUser } = useCurrentUser();
   const [hideReplies, setHideReplies] = useState<boolean>(true);
   const [showAddComment, setShowAddComment] = useState<boolean>(false);
 
@@ -84,7 +88,7 @@ export const Comment: React.FC<CommentProps> = ({
               Hide Replies
             </button>
           )}
-          {deletedAt == null && (
+          {deletedAt == null && userId === currentUser?.id && (
             <DeleteButton
               confirmationTitle={DELETE_COMMENT_CONFIRMATION.title}
               confirmationMessage={DELETE_COMMENT_CONFIRMATION.message}
@@ -116,3 +120,5 @@ export const Comment: React.FC<CommentProps> = ({
     </div>
   );
 };
+
+export default Comment;
