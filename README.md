@@ -4,7 +4,7 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 
 # About the Project
 
-    This is an assignment project built using React for the  purpose of rendering a React component where users can add and remove text based comments.
+This is an assignment project built using React for the purpose of rendering a React component where users can add and remove text based comments.
 
 ## Features Include the following :
 
@@ -33,21 +33,23 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
    1. Will allow future extention where users can undo a delete within a limited time
    2. Audit purposed it is essential to keep records for some time before permanently deleted
    3. To sync the deleted contents to the online DB easily for future.
-8. Validations for the comment input have not been implemented at the moment
+8. Validations for the comment input have not been implemented at the moment.
+9. A depth limit for the replies to be nested as not been considered at the moment.
 
 ## Future Features that can be added
 
-1. show the first reply for a comment and hide the rest untill user clicks on show all comments
-2. Load only few comments initially and load more when user clicks on load more
-3. sort comments by ascending and decending order - button to choose how to sort
-4. view all of current users comments
-5. sync local db with an online DB
-6. Auth for users
-7. Additional Pages for more products
-8. custom User profile picture
-9. Additional comment actions like upvoting , downvoating and sharing
-10. Pin comment to top
-11. Search comments
+1. Add a depth limit to the replies so that beyond max limit comments will not be nested. (Add the MAX_LIMIT in an env as well)
+2. show the first reply for a comment and hide the rest untill user clicks on show all comments
+3. Load only few comments initially and load more when user clicks on load more
+4. sort comments by ascending and decending order - button to choose how to sort
+5. view all of current users comments
+6. sync local db with an online DB
+7. Auth for users
+8. Additional Pages for more products
+9. custom User profile picture
+10. Additional comment actions like upvoting , downvoating and sharing
+11. Pin comment to top
+12. Search comments
 
 ## Design Choices
 
@@ -56,6 +58,33 @@ A modern React application built with TypeScript and styled with Tailwind CSS.
 3. RxDb with Dexie was chosen as It allows easy management of the local DB while also allows for multi tab concurency without much effort
 4. Decided on soft-delete of records rather than hard delete
 5. Decided to maintain comments with generic deleted comment message if the comment is deleted and had child comments, This method was chosen as it preserves the thread and other users comments . Otherwise, all child comments would have to be removed (Which if they are not from same user is not a good approach) or the replies would go to the first level since the parent comment isnt avaialble, which would lead to difficulty interpreting the contents of the thread as a whole.
+
+## Database Tables
+
+This application uses IndexedDB (browser local database) to store data.
+
+### Users Table
+
+| Column     | Type    | Description                                                     |
+| ---------- | ------- | --------------------------------------------------------------- |
+| `id`       | string  | Unique identifier for the user                                  |
+| `name`     | string  | Name of the user                                                |
+| `email`    | string  | Email of the user                                               |
+| `isSynced` | boolean | Tracks whether the user data is synced with the remote database |
+
+### Comments Table
+
+| Column      | Type    | Description                                                                                                                     |
+| ----------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | string  | Unique identifier for the comment                                                                                               |
+| `text`      | string  | The comment text                                                                                                                |
+| `userId`    | string  | ID of the user who created the comment                                                                                          |
+| `userName`  | string  | Name of the user (for easy access/display)                                                                                      |
+| `projectId` | string  | The project/page this comment belongs to (currently set to a default value for demo. It will have its own Projects table later) |
+| `parentId`  | string? | Optional: ID of the parent comment if this is a reply                                                                           |
+| `isSynced`  | boolean | Tracks whether the comment is synced with the remote database                                                                   |
+| `createdAt` | number  | Timestamp when the comment was created                                                                                          |
+| `deletedAt` | number? | Optional: Timestamp when the comment was deleted                                                                                |
 
 ## Getting Started
 
@@ -215,5 +244,6 @@ This project is open source and available under the [MIT License](LICENSE).
 
 # Known Issues
 
+- There is currently no limit for the depth of the tree , which will make the Replies un-readable after a certain depth
 - when child comment is deleted ,count in parents comment list is not updated if the child comment does not have any children (because of soft delete)
 - Scroll to bottom after adding comment does not focus on the latest comment
