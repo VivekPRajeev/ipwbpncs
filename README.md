@@ -19,7 +19,7 @@ This is an assignment project built using React for the purpose of rendering a R
 - Added isSync to the tables so that local table can be synced to a backend Database for online connectivity (Feature to be implemented in the future)
 - User can preserve comments and intereactions after reload or relaunching the application
 - User comments are preserved between tabs
-- User can switch bettwen other users from the nav bar
+- User can switch between other users from the nav bar
 
 ## Assumptions And Considerations Made
 
@@ -31,7 +31,7 @@ This is an assignment project built using React for the purpose of rendering a R
 6. It is assumed that all comments fall under a product, and hence for demo purposes the product is had coded with a product ID. Ideally there would be an additional product table as well as users and comments table so that multiple project pages can be viewed with its own related comments,however, I have assmumed this to be out of scope for this requirement and have temporarily used a hardcoded product ID within the DB
 7. All Data is currently soft-deleted by setting detetedAt to the time of deletion. This is done for a few reasons :
    1. Will allow future extention where users can undo a delete within a limited time
-   2. Audit purposed it is essential to keep records for some time before permanently deleted
+   2. For Audit purposes it is essential to keep records for some time before permanently deleted
    3. To sync the deleted contents to the online DB easily for future.
 8. Validations for the comment input have not been implemented at the moment.
 9. A depth limit for the replies to be nested as not been considered at the moment.
@@ -39,22 +39,23 @@ This is an assignment project built using React for the purpose of rendering a R
 ## Future Features that can be added
 
 1. Add a depth limit to the replies so that beyond max limit comments will not be nested. (Add the MAX_LIMIT in an env as well)
-2. show the first reply for a comment and hide the rest untill user clicks on show all comments
-3. Load only few comments initially and load more when user clicks on load more
-4. sort comments by ascending and decending order - button to choose how to sort
-5. view all of current users comments
-6. sync local db with an online DB
-7. Auth for users
-8. Additional Pages for more products
-9. custom User profile picture
-10. Additional comment actions like upvoting , downvoating and sharing
-11. Pin comment to top
-12. Search comments
+2. restrict the initial seeding of the db to only run in development using env
+3. show the first reply for a comment and hide the rest untill user clicks on show all comments
+4. Load only few comments initially and load more when user clicks on load more
+5. sort comments by ascending and decending order - button to choose how to sort
+6. view all of current users comments
+7. sync local db with an online DB
+8. Auth for users
+9. Additional Pages for more products
+10. custom User profile picture
+11. Additional comment actions like upvoting , downvoating and sharing
+12. Pin comment to top
+13. Search comments
 
 ## Design Choices
 
 1. I mainly used forums like Reddit as a base reference for the comment UI
-2. Tailwind was used as it facilitates the creation of responsive and elegant components out of the box.
+2. Tailwind CSS was used, as it facilitates the creation of responsive and elegant components out of the box.
 3. RxDb with Dexie was chosen as It allows easy management of the local DB while also allows for multi tab concurency without much effort
 4. Decided on soft-delete of records rather than hard delete
 5. Decided to maintain comments with generic deleted comment message if the comment is deleted and had child comments, This method was chosen as it preserves the thread and other users comments . Otherwise, all child comments would have to be removed (Which if they are not from same user is not a good approach) or the replies would go to the first level since the parent comment isnt avaialble, which would lead to difficulty interpreting the contents of the thread as a whole.
@@ -203,8 +204,7 @@ src/
 ├── main.tsx         # Application entry point
 ├── index.css        # Global styles with Tailwind directives
 ├── test/
-│   ├── setup.ts     # Global test setup
-│   └── utils.tsx    # Test utilities and helpers
+│   └── setup.ts     # Global test setup
 ```
 
 ## Technologies Used
@@ -242,7 +242,7 @@ TypeScript configuration can be found in `tsconfig.json`. Adjust compiler option
 
 This project is open source and available under the [MIT License](LICENSE).
 
-# Known Issues
+### Known Issues
 
 - There is currently no limit for the depth of the tree , which will make the Replies un-readable after a certain depth
 - when child comment is deleted ,count in parents comment list is not updated if the child comment does not have any children (because of soft delete)
