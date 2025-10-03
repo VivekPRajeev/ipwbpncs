@@ -15,8 +15,9 @@ const AddComment: React.FC<AddCommentProps> = ({
   hasCancelButton = true,
   submitLabel = "Submit",
 }) => {
-  const [comment, setComment] = useState("");
-  const [showWarning, setShowWarning] = useState(false);
+  const [comment, setComment] = useState<string>("");
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [showWarning, setShowWarning] = useState<boolean>(false);
   const commentInputRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -29,52 +30,63 @@ const AddComment: React.FC<AddCommentProps> = ({
     if (comment.trim() !== "") {
       setShowWarning(true);
     } else {
-      cancelComment && cancelComment();
+      cancelComment?.();
     }
   };
-  const handleSubmit = () => {
-    if (comment.trim() !== "") {
-      submitComment(comment);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+    try {
+      setIsSubmitting(true);
+      submitComment(comment.trim());
       setComment("");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="relative w-full mt-2 mb-2">
-      <textarea
-        ref={commentInputRef}
-        value={comment}
-        className="w-full border border-gray-300 rounded-md p-2 pr-32 pb-14 "
-        rows={3}
-        placeholder="Write a comment..."
-        onChange={(e) => setComment(e.target.value)}
-      />
-
-      <div className="absolute bottom-2 right-2 flex space-x-2">
-        <button
-          className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          onClick={handleSubmit}
-        >
-          {submitLabel}
-        </button>
-        {hasCancelButton && (
-          <button
-            className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
-        )}
-        <ConfirmationModal
-          isOpen={showWarning}
-          title={DISCARD_COMMENT_CONFIRMATION_MODAL.title}
-          message={DISCARD_COMMENT_CONFIRMATION_MODAL.message}
-          onClose={() => {
-            setShowWarning(false);
-          }}
-          onConfirm={() => cancelComment && cancelComment()}
+      <form onSubmit={handleSubmit}>
+        <textarea
+          ref={commentInputRef}
+          value={comment}
+          className="w-full border border-gray-300 rounded-md p-2 pr-32 pb-14 "
+          rows={3}
+          placeholder="Write a comment..."
+          onChange={(e) => setComment(e.target.value)}
         />
-      </div>
+
+        <div className="absolute bottom-2 right-2 flex space-x-2">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? "Submitting..." : submitLabel}
+          </button>
+          {hasCancelButton && (
+            <button
+              type="button"
+              className="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          )}
+
+          <ConfirmationModal
+            isOpen={showWarning}
+            title={DISCARD_COMMENT_CONFIRMATION_MODAL.title}
+            message={DISCARD_COMMENT_CONFIRMATION_MODAL.message}
+            onClose={() => {
+              setShowWarning(false);
+            }}
+            onConfirm={() => cancelComment && cancelComment()}
+          />
+        </div>
+      </form>
     </div>
   );
 };
